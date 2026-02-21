@@ -9,7 +9,8 @@ with open("Crime_Data/Crime_Data_2023-1.csv", "r") as f:
         #print(row)
         lat = row[9]
         long = row[10]
-        list12023.append(lat + " " + long)
+        list12023.append(lat)
+        list12023.append(long)
 print(list12023)
 
 ### csv parse -> row
