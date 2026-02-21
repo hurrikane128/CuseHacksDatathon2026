@@ -39,8 +39,8 @@ with open("Crime_Data/Crime_Data_2024-2.csv", "r") as f:
     list22024 = []
     for row in reader:
         #print(row)
-        lat = row[9]
-        long = row[10]
+        lat = row[8]
+        long = row[9]
         list22024.append(lat)
         list22024.append(long)
 print(list12023)
