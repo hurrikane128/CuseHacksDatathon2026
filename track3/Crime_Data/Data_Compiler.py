@@ -12,12 +12,12 @@ for item in data_files:
         for row in info:
             if row[6] == "False" or row[6] == "True":
                 try:
-                    crime_dict.append({(float(row[0]), float(row[1])): row[7]})
+                    crime_dict.append({(float(row[8]), float(row[9])): row[7]})
                 except ValueError:
                     pass
             else:
                 try:
-                    crime_dict.append({(float(row[0]), float(row[1])): row[8]})
+                    crime_dict.append({(float(row[9]), float(row[10])): row[8]})
                 except ValueError:
                     pass
 
