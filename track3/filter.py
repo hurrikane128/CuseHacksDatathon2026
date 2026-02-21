@@ -43,13 +43,13 @@ with open("Crime_Data/Crime_Data_2024-2.csv", "r") as f:
         long = row[9]
         list22024.append(lat)
         list22024.append(long)
-print(list12023)
-print("\n")
-print(list22023)
-print("\n")
-print(list12024)
-print("\n")
-print(list22024)
+# print(list12023)
+# print("\n")
+# print(list22023)
+# print("\n")
+# print(list12024)
+# print("\n")
+# print(list22024)
 
 ### csv parse -> row
 ### row -> x,y for the 2D list (from long and lat), type of crime, and
@@ -61,3 +61,10 @@ print(list22024)
 # ]
 
 # { "LARCENY":1, ... }
+#
+# newlist12023 = []
+# for i in list12023:
+#     if i != '':
+#         newlist12023.append(i)
+#
+# print(newlist12023)
