@@ -2,11 +2,15 @@ import plotly.graph_objects as go
 import numpy as np
 #insert array here
 Array = [
-    []
+    [12, 18, 25, 30, 22],
+    [15, 20, 28, 35, 27],
+    [10, 14, 19, 23, 18],
+    [40, 45, 50, 55, 48],
+    [33, 37, 42, 46, 39]
 ]
 z_data = np.array(Array)
 
-fig = go.figure(data=go.Heatmap(
+fig = go.Figure(data=go.Heatmap(
     z=z_data,
     colorscale="Plasma",
     colorbar=dict(title="Density")
