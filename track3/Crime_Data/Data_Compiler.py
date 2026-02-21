@@ -10,8 +10,12 @@ for item in data_files:
     with open(item) as cur_file:
         info = csv.reader(cur_file)
         for row in info:
-            crime_dict.append({(row[0], row[1]): row[8]})
+            if row[6] == "False" or row[6] == "True":
+                crime_dict.append({(row[0], row[1]): row[7]})
+            else:
+                crime_dict.append({(row[0], row[1]): row[8]})
 
 for index, item in enumerate(crime_dict):
+    print(index)
     print(crime_dict[index])
 
