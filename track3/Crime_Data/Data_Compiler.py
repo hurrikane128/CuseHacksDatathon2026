@@ -1,6 +1,6 @@
 import csv
 
-import pandas as pd
+#import pandas as pd
 
 data_files = ["Crime_Data_2023-1.csv", "Crime_Data_2023-2.csv", "Crime_Data_2024-1.csv", "Crime_Data_2024-2.csv"]
 
