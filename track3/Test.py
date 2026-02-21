@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 import numpy as np
 #insert array here
-Array = [
+array = [
     [12, 18, 25, 30, 22],
     [15, 20, 28, 35, 27],
     [10, 14, 19, 23, 18],
