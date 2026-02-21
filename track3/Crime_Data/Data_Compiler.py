@@ -11,9 +11,15 @@ for item in data_files:
         info = csv.reader(cur_file)
         for row in info:
             if row[6] == "False" or row[6] == "True":
-                crime_dict.append({(row[0], row[1]): row[7]})
+                try:
+                    crime_dict.append({(float(row[0]), float(row[1])): row[7]})
+                except ValueError:
+                    pass
             else:
-                crime_dict.append({(row[0], row[1]): row[8]})
+                try:
+                    crime_dict.append({(float(row[0]), float(row[1])): row[8]})
+                except ValueError:
+                    pass
 
 for index, item in enumerate(crime_dict):
     print(index)
