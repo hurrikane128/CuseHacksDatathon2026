@@ -33,7 +33,7 @@ def getCrimeCountArray( crime_map ):
             d = crime_map[y][x]
             for i in d.keys():
                 num += d[i]
-            temp.append(x)
+            temp.append(num)
         crime_count.append(temp)
     return crime_count
 
@@ -51,6 +51,10 @@ def generateHeatMap( crime_map ):
     z = getCrimeCountArray(crime_map)
     z_np = np.array(z)
     z_norm = (z_np - z_np.min()) / (z_np.max() - z_np.min())
+    z_log = np.log1p(z)
+    z_norm = (z_log - z_log.min()) / (z_log.max() - z_log.min())
+    print(z)
+    print(z_np)
     rgb_img = (plasma(z_norm)[:, :, :3] * 255).astype(np.uint8)
 
     # Upscale heatmap to 256×256
@@ -88,7 +92,13 @@ def generateHeatMap( crime_map ):
     # Dummy trace to activate Mapbox
     fig.add_trace(go.Scattermapbox(lat=[lat0], lon=[lon0], mode="markers",
                                    marker=dict(size=1, opacity=0)))
-
+    fig.add_trace(go.Heatmap(
+        z=z,
+        colorscale="Plasma",
+        showscale=True,
+        opacity=0,
+        hoverinfo="skip"
+    ))
     fig.update_layout(
         mapbox=dict(
             accesstoken=os.environ["MAPBOX_ACCESS_TOKEN"],
@@ -100,7 +110,7 @@ def generateHeatMap( crime_map ):
                     sourcetype="image",
                     source=encoded_heatmap,
                     coordinates=coordinates,
-                    opacity=0.30,
+                    opacity=0.50,
                     below=""
                 )
             ]
