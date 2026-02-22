@@ -2,11 +2,18 @@ import Parameters as params                       ## Import project-wide paramet
 from ScaleCoordsToIndex import latlon_to_grid     ## Convert from latitude/longitude to indexes for the crime map
 from Crime_Data import Data_Compiler as DataComp  ## Read the crime data
 
-def createCrimeMap():
+def createCrimeMap( flag=False, year='2023' ):
 
     ## Important parameters
     crime_map = []
-    file_crime_map = DataComp.read_files(params.data_files)
+    file_crime_map = []
+    if flag and year == '2023':
+        file_crime_map = DataComp.read_files(params.data_files[0:2])
+    elif flag:
+        file_crime_map = DataComp.read_files(params.data_files[2:])
+    else:
+        file_crime_map = DataComp.read_files(params.data_files)
+
     grid_size = params.CRIME_MAP_WIDTH
 
     ## Initialize the crime map array
