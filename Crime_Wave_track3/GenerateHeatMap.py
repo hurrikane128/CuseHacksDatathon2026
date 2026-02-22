@@ -9,16 +9,14 @@ from io import BytesIO
 
 import maptoken
 import Parameters as params
-
+# Made by Anderson Squires
 # Convert heatmap to base64 PNG
 def encode_png(arr):
     buffer = BytesIO()
     Image.fromarray(arr).save(buffer, format="PNG")
     return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
 
-# -----------------------------
-# TRUE 10×10 KM SQUARE USING WEB MERCATOR METERS
-# -----------------------------
+# 10×10 kilometer square conversion
 def lon_to_mx(lon): return lon * 20037508.34 / 180
 def lat_to_my(lat): return math.log(math.tan((math.pi/4) + (math.radians(lat)/2))) * 20037508.34 / math.pi
 def mx_to_lon(mx): return mx * 180 / 20037508.34
@@ -72,10 +70,10 @@ def generateHeatMap( crime_map, crime_type='' ):
     mx = lon_to_mx(lon0)
     my = lat_to_my(lat0)
 
-    # Half-size of the box in meters (10 km → 5000 m each direction)
+    # Half-size of the box in meters
     half = 5000
 
-    # Corners in meters
+    # Corners in meters (mx and my being meters)
     corners_m = [
         (mx - half, my + half),
         (mx + half, my + half),
@@ -86,7 +84,6 @@ def generateHeatMap( crime_map, crime_type='' ):
     # Convert corners back to lat/lon
     coordinates = [[mx_to_lon(x), my_to_lat(y)] for x, y in corners_m]
 
-    # -----------------------------
 
     fig = go.Figure()
 
@@ -120,5 +117,5 @@ def generateHeatMap( crime_map, crime_type='' ):
         height=700,
         title=crime_type + " Crime Density Overlay (True 10×10 km Square, Evenly Centered on Syracuse)"
     )
-
+    # shows our map in a browser
     fig.show(renderer="browser")
