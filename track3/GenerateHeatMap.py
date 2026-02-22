@@ -120,7 +120,7 @@ def generateHeatMap( crime_map, crime_type='' ):
         ),
         width=700,
         height=700,
-        title="Crime Density Overlay (True 10×10 km Square, Evenly Centered on Syracuse)"
+        title=crime_type + " Crime Density Overlay (True 10×10 km Square, Evenly Centered on Syracuse)"
     )
 
     fig.show(renderer="browser")
