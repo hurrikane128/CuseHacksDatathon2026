@@ -1,4 +1,5 @@
-import
+from BuildCrimeMap import createCrimeMap
 
 def crime_collector_main():
-    pass
+    Crime_map = createCrimeMap()
+
