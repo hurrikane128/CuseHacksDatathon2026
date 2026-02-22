@@ -32,7 +32,7 @@ for i in range(4):
 
             ## Finding x and y and crime type
             lat = row[9 + num]
-            long = row[10 + num]
+            long = row[8 + num]
             y, x = latlon_to_grid(float(lat), float(long), params.MinLat[i], params.MaxLat[i], params.MinLong[i], params.MaxLong[i], grid_size)
             #x = convertLong(long)
             #y = convertLat(lat)
