@@ -1,6 +1,8 @@
 from BuildCrimeMap import createCrimeMap
-#from Test import Graph_Setup
+from GenerateHeatMap import generateHeatMap
 
 def crime_collector_main():
-    Crime_map = createCrimeMap()
+    crime_map = createCrimeMap()
+    generateHeatMap(crime_map)
 
+crime_collector_main()
