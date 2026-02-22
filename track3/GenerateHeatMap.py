@@ -41,8 +41,6 @@ def getCrimeCountArray( crime_map, crime_type='' ):
     return crime_count
 
 def generateHeatMap( crime_map, crime_type='' ):
-    # Load and resize map image (256×256)
-    img = Image.open("Syracuse_Map.png").convert("RGB").resize((256, 256), Image.NEAREST)
 
     # Set Mapbox token
     os.environ["MAPBOX_ACCESS_TOKEN"] = maptoken.maptoken
