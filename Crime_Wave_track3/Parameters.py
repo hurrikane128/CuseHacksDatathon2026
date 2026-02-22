@@ -14,3 +14,12 @@ CRIME_MAP_HEIGHT = 25 ## Currently not used
 
 ## List of file names
 data_files = ["Crime_Data/Crime_Data_2023-1.csv", "Crime_Data/Crime_Data_2023-2.csv", "Crime_Data/Crime_Data_2024-1.csv", "Crime_Data/Crime_Data_2024-2.csv"]
+
+## All crime types
+CRIME_TYPES = {'LARCENY':'Larceny',
+               'CRIMINAL MISCHIEF':'Criminal Mischief',
+               'SIMPLE ASSAULT':'Simple Assault',
+               'MV THEFT':'Motor Vehicle Theft',
+               'BURGLARY':'Burglary',
+               'OFFN AGAINST FAMILY':'Offence Against Family',
+               'AGGRAVATED ASSAULT':'Aggravated Assault'}
