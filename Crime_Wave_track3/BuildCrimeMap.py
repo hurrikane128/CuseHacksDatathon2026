@@ -1,7 +1,10 @@
 import Parameters as params                       ## Import project-wide parameters
 from ScaleCoordsToIndex import latlon_to_grid     ## Convert from latitude/longitude to indexes for the crime map
-from Crime_Data import Data_Compiler as DataComp  ## Read the crime data
+from Crime_Data import Data_Compiler as DataComp  ## Function to read the crime data
 
+#############################
+### Made by: Jhon Kiselev ###
+#############################
 def createCrimeMap( flag=False, year='2023' ):
 
     ## Important parameters
