@@ -24,20 +24,23 @@ def lat_to_my(lat): return math.log(math.tan((math.pi/4) + (math.radians(lat)/2)
 def mx_to_lon(mx): return mx * 180 / 20037508.34
 def my_to_lat(my): return math.degrees(2 * math.atan(math.exp(my * math.pi / 20037508.34)) - math.pi/2)
 
-def getCrimeCountArray( crime_map ):
+def getCrimeCountArray( crime_map, crime_type='' ):
     crime_count = []
     for y in range(params.CRIME_MAP_HEIGHT):
         temp = []
         for x in range(params.CRIME_MAP_WIDTH):
             num = 0
             d = crime_map[y][x]
-            for i in d.keys():
-                num += d[i]
+            if crime_type in d.keys():
+                num += d[crime_type]
+            elif crime_type == '':
+                num += sum(d.values())
+
             temp.append(num)
         crime_count.append(temp)
     return crime_count
 
-def generateHeatMap( crime_map ):
+def generateHeatMap( crime_map, crime_type='' ):
     # Load and resize map image (256×256)
     img = Image.open("Syracuse_Map.png").convert("RGB").resize((256, 256), Image.NEAREST)
 
@@ -48,7 +51,7 @@ def generateHeatMap( crime_map ):
     plasma = matplotlib.colormaps.get_cmap("plasma")
 
     # 25×25 heatmap (0.4 km per cell for a 10 km square)
-    z = getCrimeCountArray(crime_map)
+    z = getCrimeCountArray(crime_map, crime_type)
     z_np = np.array(z)
     z_norm = (z_np - z_np.min()) / (z_np.max() - z_np.min())
     z_log = np.log1p(z)
