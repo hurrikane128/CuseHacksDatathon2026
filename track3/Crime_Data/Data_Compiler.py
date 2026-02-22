@@ -22,14 +22,14 @@ def read_files():
                         crime_list.append([float(row[9]), float(row[10]), row[8]])
                     except ValueError:
                         pass
-
+    '''
     for index, item in enumerate(crime_list):
         print(index)
         print(item)
-
+    '''
     return crime_list
 
-read_files()
+#read_files()
 
-print("Test")
+
 
