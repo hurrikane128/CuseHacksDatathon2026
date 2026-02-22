@@ -49,6 +49,9 @@ def generateHeatMap( crime_map, crime_type='', year_flag=False, year='2023' ):
     else:
         year_title = '2023 & 2024 '
 
+    if crime_type != '':
+        crime_type += ' '
+
     # Set Mapbox token
     os.environ["MAPBOX_ACCESS_TOKEN"] = maptoken.maptoken
 
@@ -124,7 +127,7 @@ def generateHeatMap( crime_map, crime_type='', year_flag=False, year='2023' ):
         ),
         width=700,
         height=700,
-        title=year_title + crime_type + " Crime Density Overlay (True 10×10 km Square, Evenly Centered on Syracuse)"
+        title=year_title + crime_type + "Crime Density Overlay (10km x 10km)"
     )
     # shows our map in a browser
     fig.show(renderer="browser")
