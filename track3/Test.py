@@ -1,43 +1,96 @@
 import plotly.graph_objects as go
+import matplotlib
 import numpy as np
+import os
+from PIL import Image
+import math
+import base64
+import maptoken
+from io import BytesIO
 
-#insert array here
-array = [
-    [12, 18, 25, 30, 22],
-    [15, 20, 28, 35, 27],
-    [10, 14, 19, 23, 18],
-    [40, 45, 50, 55, 48],
-    [33, 37, 42, 46, 39]
-]
-z_data = np.array(array)
-z_norm = 255 * (z_data-z_data.min()) / (z_data.max() - z_data.min())
-z_norm = z_norm.astype(np.uint8)
+# Load and resize map image (256×256)
+img = Image.open("Syracuse_Map.png").convert("RGB").resize((256, 256), Image.NEAREST)
 
-coordinates = [
-    [-76.20495, 43.09195], #top left
-    [-76.08305, 43.09195], #top right
-    [-76.08305, 43.00185], #bottom-right
-    [-76.20495, 43.00185] #bottom-left
+# Set Mapbox token
+os.environ["MAPBOX_ACCESS_TOKEN"] = maptoken.maptoken
+
+# Colormap
+plasma = matplotlib.colormaps.get_cmap("plasma")
+
+# 25×25 heatmap (0.4 km per cell for a 10 km square)
+z = np.random.randint(10, 60, size=(25, 25))
+z_norm = (z - z.min()) / (z.max() - z.min())
+rgb_img = (plasma(z_norm)[:, :, :3] * 255).astype(np.uint8)
+
+# Upscale heatmap to 256×256
+rgb_img = np.array(Image.fromarray(rgb_img).resize((256, 256), Image.NEAREST))
+
+# Convert heatmap to base64 PNG
+def encode_png(arr):
+    buffer = BytesIO()
+    Image.fromarray(arr).save(buffer, format="PNG")
+    return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
+
+encoded_heatmap = encode_png(rgb_img)
+
+# -----------------------------
+# TRUE 10×10 KM SQUARE USING WEB MERCATOR METERS
+# -----------------------------
+
+def lon_to_mx(lon): return lon * 20037508.34 / 180
+def lat_to_my(lat): return math.log(math.tan((math.pi/4) + (math.radians(lat)/2))) * 20037508.34 / math.pi
+def mx_to_lon(mx): return mx * 180 / 20037508.34
+def my_to_lat(my): return math.degrees(2 * math.atan(math.exp(my * math.pi / 20037508.34)) - math.pi/2)
+
+# TRUE geographic centroid of Syracuse
+lat0 = 43.048122
+lon0 = -76.147424
+
+# Convert center to meters
+mx = lon_to_mx(lon0)
+my = lat_to_my(lat0)
+
+# Half-size of the box in meters (10 km → 5000 m each direction)
+half = 5000
+
+# Corners in meters
+corners_m = [
+    (mx - half, my + half),
+    (mx + half, my + half),
+    (mx + half, my - half),
+    (mx - half, my - half)
 ]
+
+# Convert corners back to lat/lon
+coordinates = [[mx_to_lon(x), my_to_lat(y)] for x, y in corners_m]
+
+# -----------------------------
 
 fig = go.Figure()
 
+# Dummy trace to activate Mapbox
+fig.add_trace(go.Scattermapbox(lat=[lat0], lon=[lon0], mode="markers",
+                               marker=dict(size=1, opacity=0)))
+
 fig.update_layout(
     mapbox=dict(
-        style="open-street-map",
-        center=dict(lat=43.0469, lon=-76.144),
-        zoom=12,
+        accesstoken=os.environ["MAPBOX_ACCESS_TOKEN"],
+        style="streets",
+        center=dict(lat=lat0, lon=lon0),
+        zoom=11.8,
         layers=[
             dict(
                 sourcetype="image",
-                source=z_norm,
+                source=encoded_heatmap,
                 coordinates=coordinates,
-                opacity=0.6
+                opacity=0.30,
+                below=""
             )
         ]
     ),
     width=700,
     height=700,
-    title="Crime Density Overlay (10km by 10km)"
+    title="Crime Density Overlay (True 10×10 km Square, Evenly Centered on Syracuse)"
 )
-fig.show()
+
+fig.show(renderer="browser")
