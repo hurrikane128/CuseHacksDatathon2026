@@ -1,5 +1,5 @@
-import parameters as params                       ## Import project-wide parameters
-from scale_0_to_24 import latlon_to_grid          ## Convert from latitude/longitude to indexes for the crime map
+import Parameters as params                       ## Import project-wide parameters
+from ScaleCoordsToIndex import latlon_to_grid          ## Convert from latitude/longitude to indexes for the crime map
 from Crime_Data import Data_Compiler as DataComp  ## Read the crime data
 
 def createCrimeMap():
