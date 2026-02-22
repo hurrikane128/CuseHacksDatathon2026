@@ -8,7 +8,7 @@ array = [
     [40, 45, 50, 55, 48],
     [33, 37, 42, 46, 39]
 ]
-z_data = np.array(Array)
+z_data = np.array(array)
 
 fig = go.Figure(data=go.Heatmap(
     z=z_data,
